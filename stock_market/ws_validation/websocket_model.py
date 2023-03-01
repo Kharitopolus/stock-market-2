@@ -2,18 +2,14 @@ from typing import Union
 from pydantic import BaseModel, validator
 from decimal import Decimal
 
+
 class MakeOrder(BaseModel):
     instrument_id: int
     price: Decimal
 
 
-
 class CancelOrder(BaseModel):
     order_id: int
-
-
-
-
 
 
 class WsMessage(BaseModel):

@@ -1,10 +1,9 @@
 from typing import Union
-
 from pydantic import BaseModel, validator
 from decimal import Decimal
 
 class MakeOrder(BaseModel):
-    istr_id: int
+    instrument_id: int
     price: Decimal
 
 
@@ -14,19 +13,15 @@ class CancelOrder(BaseModel):
 
 
 
-class GetQuote(BaseModel):
-    istr_id: int
-    price: Decimal
-
 
 
 
 class WsMessage(BaseModel):
     type: str
-    payload: Union[MakeOrder, CancelOrder, GetQuote]
+    payload: Union[MakeOrder, CancelOrder]
 
     @validator('type')
-    def command_is_exist(cls, command):
-        if command in {'MakeOrder', 'CancelOrder', 'GetQuote'}:
+    def command_exist(cls, command):
+        if command in {'MakeOrder', 'CancelOrder'}:
             return command
         raise ValueError('The command does not exist.')

@@ -120,41 +120,6 @@ def take_new_order(order: Order):
 
 
 
-a = DecreasedSortedLinkedList()
-
-a.append(1)
-a.sorted_insert(4)
-a.sorted_insert(3)
-print(a)
-
-order_obj = Order(owner_id=1, instrument='HP', side_of_deal='bid', amount=3, price=Decimal(100))
-
-fill_all_instruments(all_instruments, list_of_isntrument)
-take_new_order(order_obj)
-print(all_instruments)
-print((all_instruments['HP'].bid))
-
-order_obj2 = Order(owner_id=1, instrument='HP', side_of_deal='bid', amount=3, price=Decimal(200))
-take_new_order(order_obj2)
-
-order_obj3 = Order(owner_id=1, instrument='HP', side_of_deal='bid', amount=3, price=Decimal(50))
-order_obj5 = Order(owner_id=1, instrument='HP', side_of_deal='bid', amount=96, price=Decimal(200))
-take_new_order(order_obj3)
-take_new_order(order_obj5)
-print((all_instruments['HP'].bid))
-print((all_instruments['HP'].bid_price_ordered))
-
-
-order_obj4 = Order(owner_id=1, instrument='HP', side_of_deal='ask', amount=100, price=Decimal(90))
-take_new_order(order_obj4)
-
-order_obj10 = Order(owner_id=1, instrument='TSLA', side_of_deal='bid', amount=88, price=Decimal(600))
-take_new_order(order_obj10)
-
-print(all_instruments['TSLA'].bid)
-print((all_instruments['HP'].bid))
-print((all_instruments['HP'].bid_price_ordered))
-print((all_instruments['HP'].ask))
 
 
 

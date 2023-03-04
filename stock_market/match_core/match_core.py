@@ -54,7 +54,7 @@ class StocksGlass:
         self.bid_price_ordered = DecreasedSortedLinkedList()
 
 
-list_of_isntrument = ['HP']  # list with all accessible instrument
+list_of_isntrument = ['HP', 'TSLA']  # list with all accessible instrument
 all_instruments = {}  # dict with type structure:  instrument_name: StockGlass object
 
 
@@ -68,15 +68,13 @@ def fill_all_instruments(all_instruments: dict, list_of_isntrument: list):
 
 def take_new_ask_order(ask_order: Order, stocks_glass: StocksGlass):
     bid_price_ordered = stocks_glass.bid_price_ordered
-    while bid_price_ordered and ask_order.price <= bid_price_ordered[0]:
+    while bid_price_ordered and ask_order.amount and ask_order.price <= bid_price_ordered[0]:
         deq_of_bid_lowest_price = stocks_glass.bid[bid_price_ordered[0]]
         while deq_of_bid_lowest_price and ask_order.amount:
             bid_order = deq_of_bid_lowest_price[0]
             make_deal(ask_order, bid_order)
             if bid_order.amount == 0:
                 deq_of_bid_lowest_price.popleft()
-        if ask_order.amount == 0:
-            break
         if not deq_of_bid_lowest_price:
             del stocks_glass.bid[bid_price_ordered[0]]
             bid_price_ordered.popleft()
@@ -92,15 +90,13 @@ def take_new_ask_order(ask_order: Order, stocks_glass: StocksGlass):
 
 def take_new_bid_order(bid_order: Order, stocks_glass: StocksGlass):
     ask_price_ordered = stocks_glass.ask_price_ordered
-    while ask_price_ordered and bid_order.price >= ask_price_ordered[0]:
+    while ask_price_ordered and bid_order.amount and bid_order.price >= ask_price_ordered[0]:
         deq_of_ask_lowest_price = stocks_glass.ask[ask_price_ordered[0]]
         while deq_of_ask_lowest_price and bid_order.amount:
             ask_order = deq_of_ask_lowest_price[0]
             make_deal(ask_order, bid_order)
             if ask_order.amount == 0:
                 deq_of_ask_lowest_price.popleft()
-        if bid_order.amount == 0:
-            break
         if not deq_of_ask_lowest_price:
             del stocks_glass.ask[ask_price_ordered[0]]
             ask_price_ordered.popleft()
@@ -152,6 +148,13 @@ print((all_instruments['HP'].bid_price_ordered))
 order_obj4 = Order(owner_id=1, instrument='HP', side_of_deal='ask', amount=100, price=Decimal(90))
 take_new_order(order_obj4)
 
+order_obj10 = Order(owner_id=1, instrument='TSLA', side_of_deal='bid', amount=88, price=Decimal(600))
+take_new_order(order_obj10)
+
+print(all_instruments['TSLA'].bid)
 print((all_instruments['HP'].bid))
 print((all_instruments['HP'].bid_price_ordered))
 print((all_instruments['HP'].ask))
+
+
+
